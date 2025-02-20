@@ -14,6 +14,19 @@ class Asteroid(CircleShape):
     def update(self, dt):
         self.position += self.velocity * dt
 
-
+    # Splits big and medium asteroids when shot
+    def split(self):
+        self.kill()
+        if self.radius <= ASTEROID_MIN_RADIUS:
+            return
+        else:
+            random_angle = random.uniform(20, 50)
+            vector_1 = pygame.math.Vector2.rotate(self.velocity, random_angle)
+            vector_2 = pygame.math.Vector2.rotate(self.velocity, -random_angle)
+            new_asteroid_radius = self.radius - ASTEROID_MIN_RADIUS
+            new_asteroid_1 = Asteroid(self.position.x, self.position.y, new_asteroid_radius)
+            new_asteroid_1.velocity = vector_1 * 1.2
+            new_asteroid_2 = Asteroid(self.position.x, self.position.y, new_asteroid_radius)
+            new_asteroid_2.velocity = vector_2 * 1.2
         
 
